@@ -1,8 +1,9 @@
 /* Demo and test of i2c accelerometer
 */
 module.exports = {   name:"Test-accelerometer",
-    components: [{type:"accelerometer", interface:"i2c", init: [
-        {cmd:'write', byte: 0x2D, bytes: [1 << 3]}
+    components: [{type:"accelerometer", 
+    interface:"i2c", 
+    init: [{cmd:'write', byte: 0x2D, bytes: [1 << 3]},
         {cmd:'write', byte:0x31, bytes:[0x09]},
         {cmd:'write', byte: 0x2c, bytes: [8 + 2 + 1], wait: 10}
         ], 
