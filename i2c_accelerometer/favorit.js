@@ -3,7 +3,7 @@
 
 var format_accel = function(val){
     var meterPerSecSec=[0.0,0.0,0.0];
-    var accelScaleFavor=[0.0,0.0,0.0];
+    var accelScaleFactor=[0.0,0.0,0.0];
     runTimeAccelBias = [0, 0, 0];
      return meterPerSecSec.map(function(axis, idx){
 				return val.readInt16LE(idx*2) * accelScaleFactor[idx] + runTimeAccelBias[idx];	
