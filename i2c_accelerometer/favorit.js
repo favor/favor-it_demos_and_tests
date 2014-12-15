@@ -5,10 +5,9 @@ var format_accel = function(val){
     var meterPerSecSec=[0.0,0.0,0.0];
     var accelScaleFavor=[0.0,0.0,0.0];
     runTimeAccelBias = [0, 0, 0];
-    for (var axis = XAXIS; axis <= ZAXIS; axis++) {
-				meterPerSecSec[axis] = res.readInt16LE(axis*2) * accelScaleFactor[axis] + runTimeAccelBias[axis];
-			}
-    return meterPerSecSec;
+     return meterPerSecSec.map(function(axis, idx){
+				return val.readInt16LE(idx*2) * accelScaleFactor[idx] + runTimeAccelBias[idx];	
+    });
 }
 module.exports = {   name:"Test-accelerometer",
     i2c_path: "/dev/i2c/1",
