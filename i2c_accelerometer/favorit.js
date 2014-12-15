@@ -19,6 +19,7 @@ var format_accel = function(rawData){
 
         out[i] = gCount / ((1<<12)/(2*scaleRange));
       }
+    return out;
 }
 module.exports = {   name:"Test-accelerometer",
     i2c_path: "/dev/i2c/1",
