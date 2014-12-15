@@ -1,13 +1,23 @@
 /* Demo and test of i2c accelerometer
 */
 
-var format_accel = function(val){
-    var meterPerSecSec=[0.0,0.0,0.0];
-    var accelScaleFactor=[0.0,0.0,0.0];
-    runTimeAccelBias = [0, 0, 0];
-     return meterPerSecSec.map(function(axis, idx){
-				return val.readInt16LE(idx*2) * accelScaleFactor[idx] + runTimeAccelBias[idx];	
-    });
+var format_accel = function(rawData){
+    /* this snippet of code was taken from tessel's accelerometer code
+        https://github.com/tessel/accel-mma84
+    */
+    var out = [];
+      for (var i = 0; i < 3 ; i++) {
+        var gCount = (rawData[i*2] << 8) | rawData[(i*2)+1];  // Combine the two 8 bit registers into one 12-bit number
+
+        gCount = (gCount >> 4); // The registers are left align, here we right align the 12-bit integer
+
+        // If the number is negative, we have to make it so manually (no 12-bit data type)
+        if (rawData[i*2] > 0x7F) {
+          gCount = -(1 + 0xFFF - gCount); // Transform into negative 2's complement
+        }
+
+        out[i] = gCount / ((1<<12)/(2*self.scaleRange));
+      }
 }
 module.exports = {   name:"Test-accelerometer",
     i2c_path: "/dev/i2c/1",
