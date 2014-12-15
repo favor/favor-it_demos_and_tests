@@ -6,6 +6,7 @@ var format_accel = function(rawData){
         https://github.com/tessel/accel-mma84
     */
     var out = [];
+    var scaleRange=2;
       for (var i = 0; i < 3 ; i++) {
         var gCount = (rawData[i*2] << 8) | rawData[(i*2)+1];  // Combine the two 8 bit registers into one 12-bit number
 
@@ -16,7 +17,7 @@ var format_accel = function(rawData){
           gCount = -(1 + 0xFFF - gCount); // Transform into negative 2's complement
         }
 
-        out[i] = gCount / ((1<<12)/(2*self.scaleRange));
+        out[i] = gCount / ((1<<12)/(2*scaleRange));
       }
 }
 module.exports = {   name:"Test-accelerometer",
